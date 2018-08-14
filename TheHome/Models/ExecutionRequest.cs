@@ -15,8 +15,8 @@ namespace TheHome.Models
         [JsonProperty("executionId")]
         public string ExecutionId { get; set; }
 
-        [JsonProperty("local")]
-        public string Local { get; set; }
+        [JsonProperty("locale")]
+        public string Locale { get; set; }
 
         [JsonProperty("version")]
         public string Version { get; set; }
