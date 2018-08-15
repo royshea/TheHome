@@ -30,7 +30,7 @@ namespace TheHome.Controllers
                 case Common.Enums.LifeCycleEnum.PING:
                     return HandlePing((PingRequest)request);
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
-                    throw new NotImplementedException("Configuration lifecycle");
+                    return HandleConfig((ConfigurationRequest) request);
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
                     throw new NotImplementedException("OauthCallback lifecycle");
                 default:
@@ -44,6 +44,11 @@ namespace TheHome.Controllers
         {
             var response = new PingResponse() { PingData = request.PingData };
             return Ok(response);
+        }
+
+        private ActionResult HandleConfig(ConfigurationRequest request)
+        {
+            return Ok(request);
         }
     }
 }

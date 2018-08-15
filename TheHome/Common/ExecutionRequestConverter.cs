@@ -24,7 +24,7 @@ namespace TheHome.Common
                 case Common.Enums.LifeCycleEnum.PING:
                     return new PingRequest();
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
-                    throw new NotImplementedException("Configuration lifecycle");
+                    return new ConfigurationRequest();
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
                     throw new NotImplementedException("OauthCallback lifecycle");
                 default:

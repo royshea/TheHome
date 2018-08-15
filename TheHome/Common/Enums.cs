@@ -12,5 +12,18 @@
             CONFIGURATION,
             OAUTH_CALLBACK
         }
+
+        public enum PhaseEnum
+        {
+            INITIALIZE,
+            PAGE
+        }
+
+        public enum ValueTypeEnum
+        {
+            STRING,
+            DEVICE,
+            MODE
+        }
     }
 }
