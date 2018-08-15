@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using TheHome.Models;
 
 namespace TheHome.Controllers
@@ -34,10 +36,8 @@ namespace TheHome.Controllers
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
                     throw new NotImplementedException("OauthCallback lifecycle");
                 default:
-                    break;
+                    throw new NotImplementedException("Unknown lifecycle");
             }
-
-            return Ok(request);
         }
 
         private ActionResult HandlePing(PingRequest request)
@@ -48,7 +48,104 @@ namespace TheHome.Controllers
 
         private ActionResult HandleConfig(ConfigurationRequest request)
         {
-            return Ok(request);
+            switch (request.ConfigurationData.Phase)
+            {
+                case Common.Enums.PhaseEnum.INITIALIZE:
+                    return SendInitializeResponse(request);
+                case Common.Enums.PhaseEnum.PAGE:
+                    return SendPageResponse(request);
+                default:
+                    throw new NotImplementedException("Unknown phase");
+            }
+        }
+
+        private ActionResult SendInitializeResponse(ConfigurationRequest request)
+        {
+            var responseString = @"
+            {
+              ""configurationData"": {
+                ""initialize"": {
+                            ""name"": ""On When Open\/Off When Shut WebHook App"",
+                  ""description"": ""On When Open\/Off When Shut WebHook App"",
+                  ""id"": ""app"",
+                  ""permissions"": [
+                    ""l:devices"",
+                    ""l:schedules""
+                  ],
+                  ""firstPageId"": ""1""
+                }
+            }
+            }
+            ";
+
+            var response = JsonConvert.DeserializeObject<ConfigurationInitResponse>(responseString);
+            return Ok(response);
+        }
+
+        private ActionResult SendPageResponse(ConfigurationRequest request)
+        {
+            string responseString = @"{
+                ""configurationData"": {
+                ""page"": {
+                    ""pageId"": ""1"",
+                    ""name"": ""On When Open\/Off When Shut WebHook App"",
+                    ""nextPageId"": null,
+                    ""previousPageId"": null,
+                    ""complete"": true,
+                    ""sections"": [
+                    {
+                        ""name"": ""When this opens\/closes..."",
+                        ""settings"": [
+                        {
+                            ""id"": ""contactSensor"",
+                            ""name"": ""Which contact sensor?"",
+                            ""description"": ""Tap to set"",
+                            ""type"": ""DEVICE"",
+                            ""required"": true,
+                            ""multiple"": false,
+                            ""capabilities"": [
+                            ""contactSensor""
+                            ],
+                            ""permissions"": [
+                            ""r""
+                            ]
+                }
+                        ]
+                    },
+                    {
+                        ""name"": ""Turn on\/off this light..."",
+                        ""settings"": [
+                        {
+                            ""id"": ""lightSwitch"",
+                            ""name"": ""Which switch?"",
+                            ""description"": ""Tap to set"",
+                            ""type"": ""DEVICE"",
+                            ""required"": true,
+                            ""multiple"": false,
+                            ""capabilities"": [
+                            ""switch""
+                            ],
+                            ""permissions"": [
+                            ""r"",
+                            ""x""
+                            ]
+                        }
+                        ]
+                    }
+                    ]
+                }
+                }
+                }";
+            ConfigurationPageResponse response;
+            try
+            {
+                response = JsonConvert.DeserializeObject<ConfigurationPageResponse>(responseString);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return Ok(response);
         }
     }
 }

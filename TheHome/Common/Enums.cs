@@ -25,5 +25,28 @@
             DEVICE,
             MODE
         }
+
+        public enum TypeEnum
+        {
+            DEVICE,
+            TEXT,
+            PASSWORD,
+            BOOLEAN,
+            ENUM,
+            MODE,
+            SCENE,
+            LINK,
+            PAGE,
+            IMAGE,
+            IMAGES,
+            VIDEO,
+            TIME,
+            PARAGRAPH,
+            EMAIL,
+            DECIMAL,
+            NUMBER,
+            PHONE,
+            OAUTH
+        }
     }
 }
