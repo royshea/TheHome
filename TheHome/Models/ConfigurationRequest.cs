@@ -30,7 +30,7 @@ namespace TheHome.Models
         public string PreviousPageId { get; set; }
 
         [JsonProperty("config")]
-        public Dictionary<string, List<ConfigEntry>> Config { get; set; }
+        public Dictionary<string, List<object>> Config { get; set; }
     }
 
     public class ConfigurationInitResponse
@@ -135,7 +135,7 @@ namespace TheHome.Models
         public List<string> Capabilities;
 
         // Todo: Use typed enum for permissions
-        [JsonProperty("permissionse")]
+        [JsonProperty("permissions")]
         public List<string> Permissions;
     }
 }

@@ -6,7 +6,7 @@ using static TheHome.Common.Enums;
 
 namespace TheHome.Common
 {
-    public class ExecutionRequestConverter : JsonCreationConverter<ExecutionRequest>
+    public class ExecutionRequestConverter : JsonObjectConverter<ExecutionRequest>
     {
         protected override ExecutionRequest Create(Type objectType, JObject jObject)
         {
@@ -14,7 +14,7 @@ namespace TheHome.Common
             switch (lifeCycle)
             {
                 case Common.Enums.LifeCycleEnum.INSTALL:
-                    throw new NotImplementedException("Install lifecycle");
+                    return new InstallRequest();
                 case Common.Enums.LifeCycleEnum.UPDATE:
                     throw new NotImplementedException("Update lifecycle");
                 case Common.Enums.LifeCycleEnum.UNINSTALL:
@@ -28,12 +28,12 @@ namespace TheHome.Common
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
                     throw new NotImplementedException("OauthCallback lifecycle");
                 default:
-                    return null;
+                    throw new NotImplementedException("Unknown value for LifeCycleEnum");
             }
         }
     }
 
-    public abstract class JsonCreationConverter<T> : JsonConverter
+    public abstract class JsonObjectConverter<T> : JsonConverter
     {
         /// <summary>
         /// Create an instance of objectType, based properties in the JSON object

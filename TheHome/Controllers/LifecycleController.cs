@@ -2,7 +2,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TheHome.Models;
+using static TheHome.Common.Enums;
 
 namespace TheHome.Controllers
 {
@@ -22,7 +24,7 @@ namespace TheHome.Controllers
             switch (request.LifeCycle)
             {
                 case Common.Enums.LifeCycleEnum.INSTALL:
-                    throw new NotImplementedException("Install lifecycle");
+                    return HandleInstall((InstallRequest) request);
                 case Common.Enums.LifeCycleEnum.UPDATE:
                     throw new NotImplementedException("Update lifecycle");
                 case Common.Enums.LifeCycleEnum.UNINSTALL:
@@ -109,7 +111,7 @@ namespace TheHome.Controllers
                             ""permissions"": [
                             ""r""
                             ]
-                }
+                        }
                         ]
                     },
                     {
@@ -137,15 +139,64 @@ namespace TheHome.Controllers
                 }
                 }";
             ConfigurationPageResponse response;
-            try
-            {
-                response = JsonConvert.DeserializeObject<ConfigurationPageResponse>(responseString);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            response = JsonConvert.DeserializeObject<ConfigurationPageResponse>(responseString);
             return Ok(response);
         }
+
+        private ActionResult HandleInstall(InstallRequest request)
+        {
+            // Re-parse the InstallRequest into the real deal
+            var configData = request.InstallData.InstalledApp.Config;
+            List<string> permissions;
+            Dictionary<string, ConfigEntry> configs = new Dictionary<string, ConfigEntry>();
+            foreach (var pair in configData)
+            {
+                if (pair.Key == "permissions")
+                {
+                    permissions = pair.Value.Cast<string>().ToList();
+                }
+                else
+                {
+                    var key = pair.Key;
+                    if (pair.Value.Count != 1)
+                    {
+                        throw new Exception("Shit");
+                    }
+                    var data = pair.Value[0];
+                    if (!data.ContainsKey("valueType"))
+                    {
+                        throw new Exception("bummer");
+                    }
+                    ConfigEntry entry;
+                    ValueTypeEnum valueType = data.GetValue("valueType").ToObject<ValueTypeEnum>();
+                    switch (valueType)
+                    {
+                        case ValueTypeEnum.STRING:
+                            entry = new StringConfig();
+                            break;
+                        case ValueTypeEnum.DEVICE:
+                            entry = new DeviceConfig();
+                            break;
+                        case ValueTypeEnum.MODE:
+                            entry = new ModeConfig();
+                            break;
+                        default:
+                            throw new NotImplementedException("Unknown value for ValueTypeEnum");
+                    }
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Populate(data.CreateReader(), entry);
+                    configs[key] = entry;
+                }
+            }
+
+            var responseString = @"
+            {
+                ""installData"": {}
+            }
+            ";
+            var response = JsonConvert.DeserializeObject<ConfigurationInitResponse>(responseString);
+            return Ok(response);
+        }
+
     }
 }
