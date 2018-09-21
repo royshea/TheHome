@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using TheHome.Models;
-using static TheHome.Common.Enums;
 
 namespace TheHome.Controllers
 {
@@ -50,6 +47,7 @@ namespace TheHome.Controllers
 
         private ActionResult HandleConfig(ConfigurationRequest request)
         {
+            var config = Config.ParseConfig(request.ConfigurationData.Config);
             switch (request.ConfigurationData.Phase)
             {
                 case Common.Enums.PhaseEnum.INITIALIZE:
@@ -146,49 +144,7 @@ namespace TheHome.Controllers
         private ActionResult HandleInstall(InstallRequest request)
         {
             // Re-parse the InstallRequest into the real deal
-            var configData = request.InstallData.InstalledApp.Config;
-            List<string> permissions;
-            Dictionary<string, ConfigEntry> configs = new Dictionary<string, ConfigEntry>();
-            foreach (var pair in configData)
-            {
-                if (pair.Key == "permissions")
-                {
-                    permissions = pair.Value.Cast<string>().ToList();
-                }
-                else
-                {
-                    var key = pair.Key;
-                    if (pair.Value.Count != 1)
-                    {
-                        throw new Exception("Shit");
-                    }
-                    var data = pair.Value[0];
-                    if (!data.ContainsKey("valueType"))
-                    {
-                        throw new Exception("bummer");
-                    }
-                    ConfigEntry entry;
-                    ValueTypeEnum valueType = data.GetValue("valueType").ToObject<ValueTypeEnum>();
-                    switch (valueType)
-                    {
-                        case ValueTypeEnum.STRING:
-                            entry = new StringConfig();
-                            break;
-                        case ValueTypeEnum.DEVICE:
-                            entry = new DeviceConfig();
-                            break;
-                        case ValueTypeEnum.MODE:
-                            entry = new ModeConfig();
-                            break;
-                        default:
-                            throw new NotImplementedException("Unknown value for ValueTypeEnum");
-                    }
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Populate(data.CreateReader(), entry);
-                    configs[key] = entry;
-                }
-            }
-
+            Config config = Config.ParseConfig(request.InstallData.InstalledApp.Config);
             var responseString = @"
             {
                 ""installData"": {}
@@ -198,5 +154,6 @@ namespace TheHome.Controllers
             return Ok(response);
         }
 
+        
     }
 }

@@ -30,7 +30,7 @@ namespace TheHome.Models
         public string PreviousPageId { get; set; }
 
         [JsonProperty("config")]
-        public Dictionary<string, List<object>> Config { get; set; }
+        public Dictionary<string, List<dynamic>> Config { get; set; }
     }
 
     public class ConfigurationInitResponse
