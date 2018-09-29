@@ -33,7 +33,7 @@ namespace TheHome.Controllers
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
                     return HandleConfig((ConfigurationRequest) request);
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
-                    throw new NotImplementedException("OauthCallback lifecycle");
+                    return HandleOAuthCallback((OAuthCallbackRequest) request);
                 default:
                     throw new NotImplementedException("Unknown lifecycle");
             }
@@ -168,7 +168,19 @@ namespace TheHome.Controllers
                 ""eventData"": {}
             }
             ";
-            var response = JsonConvert.DeserializeObject<UpdateResponse>(responseString);
+            var response = JsonConvert.DeserializeObject<EventResponse>(responseString);
+            return Ok(response);
+        }
+
+
+        private ActionResult HandleOAuthCallback(OAuthCallbackRequest request)
+        {
+            var responseString = @"
+            {
+                ""oAuthCallbackData"": {}
+            }
+            ";
+            var response = JsonConvert.DeserializeObject<OauthCallbackResponse>(responseString);
             return Ok(response);
         }
     }

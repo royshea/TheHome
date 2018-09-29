@@ -26,7 +26,7 @@ namespace TheHome.Common
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
                     return new ConfigurationRequest();
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
-                    throw new NotImplementedException("OauthCallback lifecycle");
+                    return new OAuthCallbackRequest();
                 default:
                     throw new NotImplementedException("Unknown value for LifeCycleEnum");
             }
