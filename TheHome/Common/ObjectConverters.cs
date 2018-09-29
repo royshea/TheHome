@@ -33,6 +33,25 @@ namespace TheHome.Common
         }
     }
 
+    public class ConfigConverter : JsonObjectConverter<ConfigEntry>
+    {
+        protected override ConfigEntry Create(Type objectType, JObject jObject)
+        {
+            ValueTypeEnum valueType = jObject.GetValue("valueType").ToObject<ValueTypeEnum>();
+            switch (valueType)
+            {
+                case ValueTypeEnum.STRING:
+                    return new StringConfig();
+                case ValueTypeEnum.DEVICE:
+                    return new DeviceConfig();
+                case ValueTypeEnum.MODE:
+                    return new ModeConfig();
+                default:
+                    throw new NotImplementedException("Unknown value for ValueTypeEnum");
+            }
+        }
+    }
+
     public abstract class JsonObjectConverter<T> : JsonConverter
     {
         /// <summary>

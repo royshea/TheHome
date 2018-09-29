@@ -47,7 +47,6 @@ namespace TheHome.Controllers
 
         private ActionResult HandleConfig(ConfigurationRequest request)
         {
-            var config = Config.ParseConfig(request.ConfigurationData.Config);
             switch (request.ConfigurationData.Phase)
             {
                 case Common.Enums.PhaseEnum.INITIALIZE:
@@ -142,8 +141,6 @@ namespace TheHome.Controllers
 
         private ActionResult HandleInstall(InstallRequest request)
         {
-            // Re-parse the InstallRequest into the real deal
-            Config config = Config.ParseConfig(request.InstallData.InstalledApp.Config);
             var responseString = @"
             {
                 ""installData"": {}

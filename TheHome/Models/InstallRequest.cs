@@ -34,7 +34,10 @@ namespace TheHome.Models
         public string LocationId { get; set; }
 
         [JsonProperty("config")]
-        public Dictionary<string, List<dynamic>> Config { get; set; }
+        public Dictionary<string, List<Config>> Config { get; set; }
+
+        [JsonProperty("permissions")]
+        public List<string> Permissions { get; set; }
     }
 
     public class InstallResponse
