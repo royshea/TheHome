@@ -69,8 +69,7 @@ namespace TheHome.Controllers
                   ""description"": ""On When Open\/Off When Shut WebHook App"",
                   ""id"": ""app"",
                   ""permissions"": [
-                    ""l:devices"",
-                    ""l:schedules""
+                    ""l:devices""
                   ],
                   ""firstPageId"": ""1""
                 }
