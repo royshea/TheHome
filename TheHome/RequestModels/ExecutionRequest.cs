@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 using TheHome.Common;
 using static TheHome.Common.Enums;
 
-namespace TheHome.Models
+namespace TheHome.RequestModels
 {
     [JsonConverter(typeof(ExecutionRequestConverter))]
     public class ExecutionRequest

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using TheHome.Common;
 using static TheHome.Common.Enums;
 
-namespace TheHome.Models
+namespace TheHome.RequestModels
 {
     public class EventRequest : ExecutionRequest
     {

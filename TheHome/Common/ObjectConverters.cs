@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using TheHome.Models;
+using TheHome.RequestModels;
 using static TheHome.Common.Enums;
 
 namespace TheHome.Common

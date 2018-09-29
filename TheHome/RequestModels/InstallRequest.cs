@@ -2,18 +2,18 @@
 using System;
 using System.Collections.Generic;
 
-namespace TheHome.Models
+namespace TheHome.RequestModels
 {
-    public class UpdateRequest : ExecutionRequest
+    public class InstallRequest : ExecutionRequest
     {
-        [JsonProperty("updateData")]
-        public UpdateData UpdateData { get; set; }
+        [JsonProperty("installData")]
+        public InstallData InstallData { get; set; }
 
         [JsonProperty("settings")]
         public Dictionary<string, string> Settings { get; set; }
     }
 
-    public class UpdateData
+    public class InstallData
     {
         [JsonProperty("authToken")]
         public string AuthToken { get; set; }
@@ -23,17 +23,11 @@ namespace TheHome.Models
 
         [JsonProperty("installedApp")]
         public InstalledApp InstalledApp { get; set; }
-
-        [JsonProperty("previousConfig")]
-        public Dictionary<string, List<Config>> PreviousConfig { get; set; }
-
-        [JsonProperty("previousPermissions")]
-        public List<string> PreviousPermissions { get; set; }
     }
-    
-    public class UpdateResponse
+
+    public class InstallResponse
     {
         [JsonProperty("installData")]
-        public Object UpdateData { get; set; }
+        public Object InstallData { get; set; }
     }
 }

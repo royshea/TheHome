@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TheHome.Models
+namespace TheHome.RequestModels
 {
     public class PingRequest : ExecutionRequest
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TheHome.Models
+namespace TheHome.RequestModels
 {
     public class UninstallRequest : ExecutionRequest
     {
