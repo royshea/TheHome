@@ -48,5 +48,19 @@
             PHONE,
             OAUTH
         }
+
+        public enum EventTypeEnum
+        {
+            DEVICE_EVENT,
+            TIMER_EVENT,
+            DEVICE_COMMANDS_EVENT,
+            MODE_EVENT
+        }
+
+        public enum TimerTypeEnum
+        {
+            CRON,
+            ONCE
+        }
     }
 }

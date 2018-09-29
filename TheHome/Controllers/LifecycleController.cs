@@ -23,11 +23,11 @@ namespace TheHome.Controllers
                 case Common.Enums.LifeCycleEnum.INSTALL:
                     return HandleInstall((InstallRequest) request);
                 case Common.Enums.LifeCycleEnum.UPDATE:
-                    return HandleUpdate((UpdateRequest)request);
+                    return HandleUpdate((UpdateRequest) request);
                 case Common.Enums.LifeCycleEnum.UNINSTALL:
                     throw new NotImplementedException("Uninstall lifecycle");
                 case Common.Enums.LifeCycleEnum.EVENT:
-                    throw new NotImplementedException("Event lifecycle");
+                    return HandleEvent((EventRequest) request);
                 case Common.Enums.LifeCycleEnum.PING:
                     return HandlePing((PingRequest)request);
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
@@ -161,5 +161,15 @@ namespace TheHome.Controllers
             return Ok(response);
         }
 
+        private ActionResult HandleEvent(EventRequest request)
+        {
+            var responseString = @"
+            {
+                ""eventData"": {}
+            }
+            ";
+            var response = JsonConvert.DeserializeObject<UpdateResponse>(responseString);
+            return Ok(response);
+        }
     }
 }

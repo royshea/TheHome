@@ -20,7 +20,7 @@ namespace TheHome.Common
                 case Common.Enums.LifeCycleEnum.UNINSTALL:
                     throw new NotImplementedException("Uninstall lifecycle");
                 case Common.Enums.LifeCycleEnum.EVENT:
-                    throw new NotImplementedException("Event lifecycle");
+                    return new EventRequest();
                 case Common.Enums.LifeCycleEnum.PING:
                     return new PingRequest();
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
@@ -48,6 +48,27 @@ namespace TheHome.Common
                     return new ModeConfig();
                 default:
                     throw new NotImplementedException("Unknown value for ValueTypeEnum");
+            }
+        }
+    }
+
+    public class EventConverter : JsonObjectConverter<Event>
+    {
+        protected override Event Create(Type objectType, JObject jObject)
+        {
+            EventTypeEnum eventType = jObject.GetValue("eventType").ToObject<EventTypeEnum>();
+            switch (eventType)
+            {
+                case EventTypeEnum.DEVICE_EVENT:
+                    return new DeviceEvent();
+                case EventTypeEnum.MODE_EVENT:
+                    return new ModeEvent();
+                case EventTypeEnum.TIMER_EVENT:
+                    return new TimerEvent();
+                case EventTypeEnum.DEVICE_COMMANDS_EVENT:
+                    return new DeviceCommandsEvent();
+                default:
+                    throw new NotImplementedException("Unknown value for EventTypeEnum");
             }
         }
     }
