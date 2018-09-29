@@ -49,10 +49,6 @@ namespace TheHome.Models
     {
     }
 
-    public class UpdateData
-    {
-    }
-
     public class EventData
     {
         public string AuthToken { get; set; }
