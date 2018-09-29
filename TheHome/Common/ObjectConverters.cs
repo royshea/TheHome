@@ -18,7 +18,7 @@ namespace TheHome.Common
                 case Common.Enums.LifeCycleEnum.UPDATE:
                     return new UpdateRequest();
                 case Common.Enums.LifeCycleEnum.UNINSTALL:
-                    throw new NotImplementedException("Uninstall lifecycle");
+                    return new UninstallRequest();
                 case Common.Enums.LifeCycleEnum.EVENT:
                     return new EventRequest();
                 case Common.Enums.LifeCycleEnum.PING:

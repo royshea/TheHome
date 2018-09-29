@@ -25,11 +25,11 @@ namespace TheHome.Controllers
                 case Common.Enums.LifeCycleEnum.UPDATE:
                     return HandleUpdate((UpdateRequest) request);
                 case Common.Enums.LifeCycleEnum.UNINSTALL:
-                    throw new NotImplementedException("Uninstall lifecycle");
+                    return HandleUninstall((UninstallRequest) request);
                 case Common.Enums.LifeCycleEnum.EVENT:
                     return HandleEvent((EventRequest) request);
                 case Common.Enums.LifeCycleEnum.PING:
-                    return HandlePing((PingRequest)request);
+                    return HandlePing((PingRequest) request);
                 case Common.Enums.LifeCycleEnum.CONFIGURATION:
                     return HandleConfig((ConfigurationRequest) request);
                 case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
@@ -172,7 +172,6 @@ namespace TheHome.Controllers
             return Ok(response);
         }
 
-
         private ActionResult HandleOAuthCallback(OAuthCallbackRequest request)
         {
             var responseString = @"
@@ -181,6 +180,17 @@ namespace TheHome.Controllers
             }
             ";
             var response = JsonConvert.DeserializeObject<OauthCallbackResponse>(responseString);
+            return Ok(response);
+        }
+
+        private ActionResult HandleUninstall(UninstallRequest request)
+        {
+            var responseString = @"
+            {
+                ""uninstallData"": {}
+            }
+            ";
+            var response = JsonConvert.DeserializeObject<UninstallResponse>(responseString);
             return Ok(response);
         }
     }
