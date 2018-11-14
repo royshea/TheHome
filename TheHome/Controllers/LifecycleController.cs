@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using TheHome.RequestModels;
+using SmartSharp;
+using SmartSharp.RequestModels;
 
 namespace TheHome.Controllers
 {
@@ -20,19 +21,19 @@ namespace TheHome.Controllers
 
             switch (request.LifeCycle)
             {
-                case Common.Enums.LifeCycleEnum.INSTALL:
+                case Enums.LifeCycleEnum.INSTALL:
                     return HandleInstall((InstallRequest) request);
-                case Common.Enums.LifeCycleEnum.UPDATE:
+                case Enums.LifeCycleEnum.UPDATE:
                     return HandleUpdate((UpdateRequest) request);
-                case Common.Enums.LifeCycleEnum.UNINSTALL:
+                case Enums.LifeCycleEnum.UNINSTALL:
                     return HandleUninstall((UninstallRequest) request);
-                case Common.Enums.LifeCycleEnum.EVENT:
+                case Enums.LifeCycleEnum.EVENT:
                     return HandleEvent((EventRequest) request);
-                case Common.Enums.LifeCycleEnum.PING:
+                case Enums.LifeCycleEnum.PING:
                     return HandlePing((PingRequest) request);
-                case Common.Enums.LifeCycleEnum.CONFIGURATION:
+                case Enums.LifeCycleEnum.CONFIGURATION:
                     return HandleConfig((ConfigurationRequest) request);
-                case Common.Enums.LifeCycleEnum.OAUTH_CALLBACK:
+                case Enums.LifeCycleEnum.OAUTH_CALLBACK:
                     return HandleOAuthCallback((OAuthCallbackRequest) request);
                 default:
                     throw new NotImplementedException("Unknown lifecycle");
@@ -49,9 +50,9 @@ namespace TheHome.Controllers
         {
             switch (request.ConfigurationData.Phase)
             {
-                case Common.Enums.PhaseEnum.INITIALIZE:
+                case Enums.PhaseEnum.INITIALIZE:
                     return SendInitializeResponse(request);
-                case Common.Enums.PhaseEnum.PAGE:
+                case Enums.PhaseEnum.PAGE:
                     return SendPageResponse(request);
                 default:
                     throw new NotImplementedException("Unknown phase");
